@@ -48,3 +48,18 @@ target_link_libraries(lxrandr-qt
 )
 
 install(TARGETS lxrandr-qt RUNTIME DESTINATION bin)
+
+# building tarball with CPack -------------------------------------------------
+# To create a source distribution, type:
+# make package_source
+include (InstallRequiredSystemLibraries)
+set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
+set (CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README")
+set (CPACK_PACKAGE_VENDOR "")
+set (CPACK_PACKAGE_VERSION_MAJOR "0")
+set (CPACK_PACKAGE_VERSION_MINOR "1")
+set (CPACK_PACKAGE_VERSION_PATCH "0")
+set (CPACK_GENERATOR TBZ2)
+set (CPACK_SOURCE_GENERATOR TBZ2)
+set (CPACK_SOURCE_IGNORE_FILES /build/;.gitignore;.*~;.git;.kdev4;temp)
+include (CPack)
