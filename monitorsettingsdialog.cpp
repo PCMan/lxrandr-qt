@@ -121,7 +121,7 @@ bool MonitorSettingsDialog::getXRandRInfo() {
         strv = g_ptr_array_sized_new(8);
         g_ptr_array_add(strv, g_strdup(str));
 
-        while(str = strtok(NULL, " ")) {
+        while((str = strtok(NULL, " "))) {
           if(*str) {
             char* star, *plus;
             str = g_strdup(str);
@@ -132,12 +132,12 @@ bool MonitorSettingsDialog::getXRandRInfo() {
             else
               g_ptr_array_add(strv, str);
 
-            if(star = strchr(str, '*')) {
+            if((star = strchr(str, '*'))) {
               monitor->currentMode = imode;
               monitor->currentRate = irate;
             }
 
-            if(plus = strchr(str, '+')) {
+            if((plus = strchr(str, '+'))) {
               monitor->preferredMode = imode;
               monitor->preferredRate = irate;
             }
