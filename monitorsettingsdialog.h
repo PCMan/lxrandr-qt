@@ -56,7 +56,7 @@ private Q_SLOTS:
 private:
   Ui::MonitorSettingsDialog ui;
   QPushButton* aboutButton;
-  GSList* monitors;
+  QList<Monitor*> monitors;
   Monitor* LVDS;
 };
 
