@@ -305,7 +305,7 @@ static QList<Monitor*> get_outputs (Display *dpy, XRRScreenResources *res)
             }
         monitors.append(monitor);
     }
-    //printf("[get_outputs]: End\n");
+    printf("[get_outputs]: Finalizado\n");
     return monitors;
 }
 

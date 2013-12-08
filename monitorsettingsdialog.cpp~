@@ -90,12 +90,13 @@ void MonitorSettingsDialog::onResolutionChanged(int index) {
   char** rate;
   QStandardItemModel *model = (QStandardItemModel *) combo->model();
   int sel = model->item(combo->currentIndex())->data().toInt();
-  //printf("MonitorSettingsDialog::onResolutionChanged sel = %d\n", sel);
+  //int sel = combo->currentIndex() - 1;
+  printf("MonitorSettingsDialog::onResolutionChanged sel = %d\n", sel);
   monitor->rateCombo->clear();
   monitor->rateCombo->addItem(tr("Auto"));
   if( sel >= 0 ) {
     ModeLine mode_line = monitor->modeLines[sel];
-    //printf("scale = %s\n", mode_line.scale.toAscii().data());
+    printf("scale = %s\n", mode_line.scale.toAscii().data());
     for (int i = 0; i < mode_line.rates.size(); ++i)
       monitor->rateCombo->addItem(mode_line.rates[i]);
   }
