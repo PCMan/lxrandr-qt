@@ -109,9 +109,10 @@ void MonitorSettingsDialog::onResolutionChanged(int index) {
 
 void MonitorSettingsDialog::setXRandRInfo() {
   Monitor* l;
-  QByteArray cmd = "xrandr";
+  
 
   for(int i=0; i<monitors.size(); ++i) {
+    QByteArray cmd = "xrandr";
     Monitor* monitor = monitors[i];
     cmd += " --output ";
     cmd.append(monitor->name);
@@ -154,7 +155,7 @@ void MonitorSettingsDialog::setXRandRInfo() {
 
         if(sel_rate >= 1) { // not auto refresh rate
           cmd.append(" --rate ");
-          cmd.append(monitor->resolutionCombo->currentText());
+          cmd.append(monitor->rateCombo->currentText());
         }
       }
       
@@ -163,12 +164,15 @@ void MonitorSettingsDialog::setXRandRInfo() {
     }
     else    // turn off
       cmd.append("--off");
+    
+    //Exec xrandr
+    QProcess process;
+    process.start(cmd);
+    process.waitForFinished();
+    printf("%s\n", cmd.constData() );
   }
   
-  QProcess process;
-  process.start(cmd);
-  process.waitForFinished();
-  printf("%s\n", cmd.constData() );
+  
 }
 
 void MonitorSettingsDialog::chooseMaxResolution(Monitor* monitor) {
@@ -282,7 +286,6 @@ void MonitorSettingsDialog::setupUi() {
     
     monitor->resolutionCombo->setCurrentIndex(monitor->currentMode + 1);
     monitor->rateCombo->setCurrentIndex(monitor->currentRate + 1);
-    ++i;
   }
 }
 

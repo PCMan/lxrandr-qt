@@ -202,10 +202,10 @@ static QList<Monitor*> get_outputs (Display *dpy, XRRScreenResources *res)
         XRROutputInfo *output_info = XRRGetOutputInfo (dpy, res, res->outputs[o]);
         Monitor *monitor = new Monitor();
         monitor->name = output_info->name;
-        //printf("Output: %s\n", output_info->name);
+        printf("Output: %s\n", output_info->name);
         switch (output_info->connection) {
         case RR_Disconnected:
-            //printf("  Disconnected\n");
+            printf("  Disconnected\n");
             continue;
             break;
         case RR_Connected:
@@ -227,9 +227,9 @@ static QList<Monitor*> get_outputs (Display *dpy, XRRScreenResources *res)
                     XRRModeInfo *mode = &res->modes[k];
                     if(mode->id==mode_xid)
                     {
-                      //printf("  Modo %d: %s\n", j, mode->name);
+                      printf("  Modo %d: %s\n", j, mode->name);
                       //printf ("     %s (0x%x) %6.1fMHz\n", mode->name, (int)mode->id, (double)mode->dotClock / 1000000.0);
-                      //printf("      %6.1fMHz\n", mode_refresh (mode));
+                      printf("      %6.1fMHz\n", mode_refresh (mode));
                       char buffer[10];
                       sprintf(buffer, "%6.1f", mode_refresh (mode));
                       QString rate(buffer);
