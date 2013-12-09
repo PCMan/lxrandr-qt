@@ -27,7 +27,37 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/Xrandr.h>
 
+/////////////////////////////////////////////////////////////////////////////
+// Some functions from xrandr.c (Xorg) 
 
+// Licenced under The Open Group licence:
+
+/* 
+ * Copyright © 2001 Keith Packard, member of The XFree86 Project, Inc.
+ * Copyright © 2002 Hewlett Packard Company, Inc.
+ * Copyright © 2006 Intel Corporation
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that copyright
+ * notice and this permission notice appear in supporting documentation, and
+ * that the name of the copyright holders not be used in advertising or
+ * publicity pertaining to distribution of the software without specific,
+ * written prior permission.  The copyright holders make no representations
+ * about the suitability of this software for any purpose.  It is provided "as
+ * is" without express or implied warranty.
+ *
+ * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+ * OF THIS SOFTWARE.
+ *
+ * Thanks to Jim Gettys who wrote most of the client side code,
+ * and part of the server code for randr.
+ */
 
 static double mode_refresh (XRRModeInfo *mode_info)
 {
@@ -139,6 +169,10 @@ static void get_gamma_info(Display *dpy, XRRScreenResources *res, RRCrtc crtc, f
     XRRFreeGamma(crtc_gamma);
 }
 
+
+////////////////////////////////////////////////////////////////////////
+// Next functions are added to connect to Xrandr
+
 /** Sort modeLines using pixels size.
  */
 static void sort_modes(QList<QString> &modes)
@@ -227,12 +261,10 @@ static QList<Monitor*> get_outputs (Display *dpy, XRRScreenResources *res)
                     XRRModeInfo *mode = &res->modes[k];
                     if(mode->id==mode_xid)
                     {
-                      printf("  Modo %d: %s\n", j, mode->name);
+                      printf("  Mode %d: %s\n", j, mode->name);
                       //printf ("     %s (0x%x) %6.1fMHz\n", mode->name, (int)mode->id, (double)mode->dotClock / 1000000.0);
                       printf("      %6.1fMHz\n", mode_refresh (mode));
-                      char buffer[10];
-                      sprintf(buffer, "%6.1f", mode_refresh (mode));
-                      QString rate(buffer);
+		      QString rate=QString("%1").arg(mode_refresh (mode), 6, 'f', 1);
                       if(!modes_hash.contains(QString(mode->name)))
                       {
                         QList<QString> rates;
@@ -342,6 +374,4 @@ QList<Monitor*> get_monitors_info(){
   XCloseDisplay(dpy);
   return monitors;
 }
-//
-//      gcc -o Xrandr Xrandr.cc -lX11 -lXrandr -lstdc++
-//
+
