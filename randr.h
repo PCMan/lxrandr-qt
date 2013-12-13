@@ -18,46 +18,38 @@
 */
 
 
-#ifndef MONITORSETTINGSDIALOG_H
-#define MONITORSETTINGSDIALOG_H
+#ifndef randr_H
+#define randr_H
 
-#include <QDialog>
-#include "ui_lxrandr.h"
+#include <QString>
+#include <QList>
+#include <QComboBox>
+#include <QCheckBox>
+#include <QSlider>
 
-#include <glib.h>
-
-struct Monitor;
-
-class MonitorSettingsDialog: public QDialog {
-Q_OBJECT
-
-public:
-  MonitorSettingsDialog();
-  virtual ~MonitorSettingsDialog();
-  virtual void accept();
-
-private:
-  QString humanReadableName(Monitor* monitor);
-  bool getXRandRInfo();
-  void setXRandRInfo();
-  void chooseMaxResolution(Monitor* monitor);
-  void setupUi();
-
-private Q_SLOTS:
-  void onResolutionChanged(int index);
-  
-  // quick options
-  void onUseBoth();
-  void onExternalOnly();
-  void onLaptopOnly();
-  
-  void onDialogButtonClicked(QAbstractButton* button);
-
-private:
-  Ui::MonitorSettingsDialog ui;
-  QPushButton* aboutButton;
-  QList<Monitor*> monitors;
-  Monitor* LVDS;
+struct ModeLine {
+  QString modeline;
+  QString scale;
+  QList<QString> rates;
 };
 
-#endif // MONITORSETTINGSDIALOG_H
+struct Monitor {
+  QString name;
+  QList<ModeLine> modeLines;
+  QHash<QString, QList<QString> > modes_hash;
+  short currentMode;
+  short currentRate;
+  short preferredMode;
+  short preferredRate;
+  float brightness, red, blue, green;
+
+  QCheckBox* enable;
+  QComboBox* resolutionCombo;
+  QComboBox* rateCombo;
+  QCheckBox* panning;
+  QSlider* brightness_slider;
+};
+
+QList<Monitor*> get_monitors_info();
+
+#endif // randr_H
