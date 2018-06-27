@@ -208,7 +208,7 @@ void MonitorSettingsDialog::setXRandRInfo() {
 
         if(sel_rate >= 1) { // not auto refresh rate
           cmd.append(" --rate ");
-          cmd.append(monitor->resolutionCombo->currentText());
+          cmd.append(monitor->rateCombo->currentText());
         }
       }
     }
